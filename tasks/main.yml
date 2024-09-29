@@ -1,0 +1,42 @@
+---
+# Docker Installation
+
+- name: Install Dockers official GPG key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    keyring: /etc/apt/trusted.gpg.d/docker.gpg
+
+- name: Add Docker's repo
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_facts.distribution_release }} stable"
+
+- name: Install Docker
+  ansible.builtin.apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+
+- name: Docker Daemon Configuration File
+  ansible.builtin.copy:
+    src: "daemon.json"
+    dest: "/etc/docker/daemon.json"
+    owner: "root"
+    group: "root"
+    mode: "0640"
+  notify: Restart Docker Service
+
+- name: Docker  User Environment
+  ansible.builtin.copy:
+    src: docker-alias.sh
+    dest: /etc/profile.d/docker-alias.sh
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Enable and start service
+  ansible.builtin.systemd_service:
+    name: docker
+    state: started
+    enabled: true
