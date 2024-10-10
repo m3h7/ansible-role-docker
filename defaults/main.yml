@@ -1,3 +1,2 @@
 ---
-# Name of user to use Docker, user must exist.
-docker_rootless_user: "user"
+# Defaults for role docker

@@ -1,4 +1,4 @@
-# Role docker_rootless
+# Role docker
 
 Installs Docker to run in root mode.
 
@@ -16,11 +16,11 @@ None.
 
 ## Example Playbook
 
-Example show how to install Docker to use in rootless mode by user "joe".
+Example show how to install Docker.
 
     - hosts: servers
       roles:
-         - { role: m3h7.docker_rootless }
+         - { role: m3h7.docker }
 
 ## License
 
